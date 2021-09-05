@@ -50,13 +50,13 @@ export default {
       };
       const json = yield call(getAllPlugins, params);
       if (json.code === 200) {
-        let { dataList } = json.data;
+        let { list } = json.data;
 
-        callback(dataList)
+        callback(list)
         yield put({
           type: "savePlugins",
           payload: {
-            dataList
+            dataList: list
           }
         });
       }

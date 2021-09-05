@@ -41,16 +41,16 @@ export default {
       const {payload} = params;
       const json = yield call(getAllPluginHandles, payload);
       if (json.code === 200) {
-        let {page, dataList} = json.data;
-        dataList = dataList.map(item => {
+        let {total, list} = json.data;
+        list = list.map(item => {
           item.key = item.id;
           return item;
         });
         yield put({
           type: "savePluginHandles",
           payload: {
-            total: page.totalCount,
-            dataList
+            total: total,
+            dataList: list
           }
         });
       }

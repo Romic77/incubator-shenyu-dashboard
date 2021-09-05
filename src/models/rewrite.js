@@ -46,16 +46,16 @@ export default {
     *fetchSelector({ payload }, { call, put }) {
       const json = yield call(getAllSelectors, { ...payload });
       if (json.code === 200) {
-        let { page, dataList } = json.data;
-        dataList = dataList.map(item => {
+        let { total, list } = json.data;
+        list = list.map(item => {
           item.key = item.id;
           return item;
         });
         yield put({
           type: "saveSelector",
           payload: {
-            selectorTotal: page.totalCount,
-            selectorList: dataList
+            selectorTotal: total,
+            selectorList: list
           }
         });
 
@@ -63,16 +63,16 @@ export default {
           type: "saveCurrentSelector",
           payload: {
             currentSelector:
-              dataList && dataList.length > 0 ? dataList[0] : ""
+            list && list.length > 0 ? list[0] : ""
           }
         });
-        if (dataList && dataList.length > 0) {
+        if (list && list.length > 0) {
           yield put({
             type: "fetchRule",
             payload: {
               currentPage: 1,
               pageSize: 12,
-              selectorId: dataList[0].id
+              selectorId: list[0].id
             }
           });
         }
@@ -81,16 +81,16 @@ export default {
     *fetchRule({ payload }, { call, put }) {
       const json = yield call(getAllRules, payload);
       if (json.code === 200) {
-        let { page, dataList } = json.data;
-        dataList = dataList.map(item => {
+        let { total, list } = json.data;
+        list = list.map(item => {
           item.key = item.id;
           return item;
         });
         yield put({
           type: "saveRule",
           payload: {
-            ruleTotal: page.totalCount,
-            ruleList: dataList
+            ruleTotal: total,
+            ruleList: list
           }
         });
       }

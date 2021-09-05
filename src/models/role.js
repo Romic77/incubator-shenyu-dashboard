@@ -40,17 +40,17 @@ export default {
       const { payload } = params;
       const json = yield call(getRoleList, payload);
       if (json.code === 200) {
-        let { page, dataList } = json.data;
+        let { total, list } = json.data;
 
-        dataList = dataList.map(item => {
+        list = list.map(item => {
           item.key = item.id;
           return item;
         });
         yield put({
           type: "saveRoles",
           payload: {
-            total: page.totalCount,
-            dataList
+            total: total,
+            dataList: list
           }
         });
       }

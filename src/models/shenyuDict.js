@@ -42,16 +42,16 @@ export default {
       const {payload} = params;
       const json = yield call(fetchShenYuDicts, payload);
       if (json.code === 200) {
-        let {page, dataList} = json.data;
-        dataList = dataList.map(item => {
+        let {total,list} = json.data;
+        list = list.map(item => {
           item.key = item.id;
           return item;
         });
         yield put({
           type: "saveShenYuDicts",
           payload: {
-            total: page.totalCount,
-            dataList
+            total: total,
+            dataList: list
           }
         });
       }
@@ -112,7 +112,7 @@ export default {
     *fetchByType(params, {call, put, select }) {
       const {payload} = params;
       let callback = payload.callBack;
-      let shenyuDictMap = yield select((state)=>state.shenyuDict.shenyuDictMap || {});
+      let shenyuDictMap = yield select((state)=>state.shenyuDict.shenyuDictMap);
       if(shenyuDictMap[payload.type]) {
         callback(shenyuDictMap[payload.type])
       } else {

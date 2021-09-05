@@ -32,16 +32,16 @@ export default {
       const { payload } = params;
       const json = yield call(getAllAuths, payload);
       if (json.code === 200) {
-        let { page, dataList } = json.data;
-        dataList = dataList.map(item => {
+        let { total, list } = json.data;
+        list = list.map(item => {
           item.key = item.id;
           return item;
         });
         yield put({
           type: "saveAuths",
           payload: {
-            total: page.totalCount,
-            dataList
+            total: total,
+            dataList: list
           }
         });
       }
